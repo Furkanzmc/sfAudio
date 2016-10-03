@@ -8,15 +8,21 @@ if (NOT DEFINED AR)
     set(AR x86)
 endif()
 
+add_definitions(-DFLAC__NO_DLL)
+add_definitions(-DOV_EXCLUDE_STATIC_CALLBACKS) # avoids warnings in vorbisfile.h
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    set(LIB_SUFFX -d)
+endif()
+
 if (MSVC)
     set(SFAUDIO_EXT_LIBS
-        external/libs-msvc2015/${AR}/flac.lib
-        external/libs-msvc2015/${AR}/ogg.lib
-        external/libs-msvc2015/${AR}/openal32.lib
-        external/libs-msvc2015/${AR}/vorbis.lib
-        external/libs-msvc2015/${AR}/vorbisenc.lib
-        external/libs-msvc2015/${AR}/vorbisfile.lib
-    )
+        ${SFAUDIO_ROOT}/external/libs-msvc2015/${AR}/flac.lib
+        ${SFAUDIO_ROOT}/external/libs-msvc2015/${AR}/libogg${LIB_SUFFX}.lib
+        ${SFAUDIO_ROOT}/external/libs-msvc2015/${AR}/openal32.lib
+        ${SFAUDIO_ROOT}/external/libs-msvc2015/${AR}/libvorbis${LIB_SUFFX}.lib
+        ${SFAUDIO_ROOT}/external/libs-msvc2015/${AR}/libvorbisfile${LIB_SUFFX}.lib
+        CACHE LIST "Set the list of libs paths for sfAudio"
+        )
 else()
     message(FATAL_ERROR "Current compiler is not supported. Exiting.")
 endif(MSVC)
@@ -25,12 +31,12 @@ set(SFAUDIO_INC
     ${SFAUDIO_ROOT}/external/headers/
     ${SFAUDIO_ROOT}/include
     CACHE LIST "Set the list of include paths for sfAudio"
-)
+    )
 
 include_directories(
     ${SFAUDIO_ROOT}/external/headers/
     ${SFAUDIO_ROOT}/include
-)
+    )
 
 set(SFAUDIO_SRC
     src/System/FileInputStream.cpp
@@ -56,7 +62,7 @@ set(SFAUDIO_SRC
     src/SoundRecorder.cpp
     src/SoundSource.cpp
     src/SoundStream.cpp
-)
+    )
 
 
 set(SFAUDIO_HEADERS
@@ -88,7 +94,7 @@ set(SFAUDIO_HEADERS
     include/sfAudio/SoundSource.hpp
     include/sfAudio/SoundStream.hpp
     include/sfAudio/SoundFileFactory.inl
-)
+    )
 
 add_library(sfAudio STATIC
     ${SFAUDIO_SRC}
@@ -100,4 +106,3 @@ set_target_properties(sfAudio
     ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
     )
-
