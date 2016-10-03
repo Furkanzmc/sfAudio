@@ -1,13 +1,8 @@
 #ifndef VECTOR3_H
 #define VECTOR3_H
 
+struct Vector3f {
 
-class Vector3f
-{
-public:
-    float x, y, z;
-
-public:
     Vector3f()
         : x(0)
         , y(0)
@@ -23,6 +18,8 @@ public:
     {
 
     }
+
+    float x, y, z;
 
 };
 
