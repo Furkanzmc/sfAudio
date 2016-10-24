@@ -1,6 +1,6 @@
 # sfAudio
 
-Standalone port of the SFML Audio Engine. `sfAudio` replaces all the `SFML` specific functionalities with standards except for the `sf::Time` and `sf::Vector3f`,
+Standalone port of the SFML Audio Engine from the version `2.4.0`. `sfAudio` replaces all the `SFML` specific functionalities with standards except for the `sf::Time` and `sf::Vector3f`,
 which is just a `struct` that has `x`, `y`, `z` values.
 
 # How To Use
